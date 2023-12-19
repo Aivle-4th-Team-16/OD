@@ -112,9 +112,19 @@ git push origin [branch_name]
 
 ### PostgreSQL 설치하기
 
-1. PostgreSQL 설치 [[참고1]](https://www.postgresql.org/download/), [[참고2]](https://medium.com/@heeee/django-django%EC%99%80-postgresql%EC%9D%80-%EC%99%9C-%EA%B6%81%ED%95%A9%EC%9D%B4-%EC%A2%8B%EC%9D%84%EA%B9%8C-1%ED%83%84-54af53bec906)
+1. PostgreSQL 설치 [[참고1]](https://jiurinie.tistory.com/54), [[참고2]](https://www.postgresql.org/download/), [[참고3]](https://medium.com/@heeee/django-django%EC%99%80-postgresql%EC%9D%80-%EC%99%9C-%EA%B6%81%ED%95%A9%EC%9D%B4-%EC%A2%8B%EC%9D%84%EA%B9%8C-1%ED%83%84-54af53bec906)
 
-2. PostgreSQL 서버 실행: 저는 같이 설치되는 pgAdmin4를 실행해서 사용합니다. 커맨드로 쓸꺼 아니여서요.
+.env 파일에 설정할 변수값 설치시에 설정함!
+```python
+# DB 설정
+DB_NAME = 'postgres'
+DB_USER = 'postgres'
+DB_PASSWORD = 'dndud9396*'
+DB_HOST = 'localhost'
+DB_PORT = '5432'
+```
+
+3. PostgreSQL 서버 실행: 저는 같이 설치되는 pgAdmin4를 실행해서 사용합니다. 커맨드로 쓸꺼 아니여서요.
 
 ### 가상환경 사용해서 의존성 관리하기
 
