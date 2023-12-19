@@ -119,7 +119,7 @@ git push origin [branch_name]
 # DB 설정
 DB_NAME = 'postgres'
 DB_USER = 'postgres'
-DB_PASSWORD = 'dndud9396*'
+DB_PASSWORD = ''
 DB_HOST = 'localhost'
 DB_PORT = '5432'
 ```
