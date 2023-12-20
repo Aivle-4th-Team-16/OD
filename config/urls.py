@@ -22,4 +22,5 @@ urlpatterns = [
     path('', include('audiobook.urls')),
     path('community/', include('community.urls')),
     path('user/', include('user.urls')),
+    path('rvc_test/',include('rvc_test.urls'))
 ]

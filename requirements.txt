@@ -1,6 +1,5 @@
 asgiref==3.7.2
 Django==5.0
-numpy==1.26.2
 pandas==2.1.4
 psycopg2==2.9.9
 python-dateutil==2.8.2
@@ -16,7 +15,7 @@ gdown
 mega.py
 joblib>=1.1.0
 numba==0.56.4
-numpy==1.22.0
+numpy==1.23
 scipy
 librosa==0.9.1
 llvmlite==0.39.0

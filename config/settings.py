@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'audiobook',
     'user',
     'community',
+    'rvc_test'
 ]
 
 MIDDLEWARE = [
