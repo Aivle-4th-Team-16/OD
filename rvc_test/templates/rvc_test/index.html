@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web App</title>
+</head>
+<body>
+    <h1>Text Area 예제</h1>
+    <textarea id="myTextArea" rows="4" cols="50"></textarea><br>
+    <button onclick="readTextArea()">텍스트 읽어오기</button>
+    <p id="result"></p>
+
+    <script>
+        function readTextArea() {
+            var text = document.getElementById("myTextArea").value;
+            document.getElementById("result").innerText = "텍스트: " + text;
+        }
+    </script>
+</body>
+</html>

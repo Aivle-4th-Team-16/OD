@@ -1,7 +1,13 @@
 import os
 import urllib.request
 
-assets_folder = r"C:\Users\nicho\Desktop\RVC_TEST\project-main\assets"
+#print(os.getcwd())
+
+# 현재 작업 디렉토리 얻기
+current_directory = os.getcwd()
+
+# 새로운 디렉토리 경로 생성 (project-main 폴더 안의 asset 폴더)
+assets_folder = os.path.join(current_directory, "project-main", "assets")
 if not os.path.exists(assets_folder):
     os.makedirs(assets_folder)
 

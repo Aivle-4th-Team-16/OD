@@ -5,6 +5,7 @@ import sys
 from scipy import signal
 
 now_dir = os.getcwd()
+print("This is path",now_dir)
 sys.path.append(now_dir)
 inp_root = sys.argv[1]
 sr = int(sys.argv[2])
