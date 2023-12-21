@@ -5,15 +5,11 @@
 </head>
 <body>
     <h1>Text Area 예제</h1>
-    <textarea id="myTextArea" rows="4" cols="50"></textarea><br>
-    <button onclick="readTextArea()">텍스트 읽어오기</button>
-    <p id="result"></p>
-
-    <script>
-        function readTextArea() {
-            var text = document.getElementById("myTextArea").value;
-            document.getElementById("result").innerText = "텍스트: " + text;
-        }
-    </script>
+    <form method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <textarea name="my_textarea" rows="4" cols="50"></textarea><br>
+        <button type="submit">텍스트 읽어오기</button>
+    </form>
+    <p>텍스트: {{ text }}</p>
 </body>
 </html>
