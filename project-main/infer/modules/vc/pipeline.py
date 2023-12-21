@@ -151,7 +151,7 @@ class Pipeline(object):
                     is_half=self.is_half,
                     device=self.device,
                 )
-            f0 = self.model_rmvpe.infer_from_audio(x, thred=0.03) # x audio pad
+            f0 = self.model_rmvpe.infer_from_audio(x, thred=0.03)
 
         if "privateuseone" in str(self.device):  # clean ortruntime memory
             del self.model_rmvpe.model

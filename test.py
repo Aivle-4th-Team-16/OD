@@ -1,2 +1,2 @@
-import sys
-print(sys.executable)
+import infer
+print(dir(infer))

@@ -5,15 +5,14 @@ import sys
 from scipy import signal
 
 now_dir = os.getcwd()
-print("This is path",now_dir)
 sys.path.append(now_dir)
+print(sys.argv)
 inp_root = sys.argv[1]
 sr = int(sys.argv[2])
 n_p = int(sys.argv[3])
 exp_dir = sys.argv[4]
 noparallel = sys.argv[5] == "True"
 per = float(sys.argv[6])
-
 import multiprocessing
 import os
 import traceback
