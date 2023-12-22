@@ -1,6 +1,6 @@
 #@title 4.Train Model
 #@markdown <small> Enter your ngrok authtoken to open tensorboard. Get one here: https://dashboard.ngrok.com/get-started/your-authtoken
-#ngrok_authtoken = "2ZfQXeCIYi66fomYCRLDwoiKmcJ_7C5fubB7VpdhpBmZZL6CP"#@param {type:"string"}
+#@param {type:"string"}
 #!ngrok config add-authtoken {ngrok_authtoken}
 #%cd /content/drive/MyDrive/project-main
 from random import shuffle
@@ -9,9 +9,11 @@ import os
 import pathlib
 from subprocess import Popen, PIPE, STDOUT
 from pyngrok import ngrok
+import sys
+
 now_dir=os.getcwd()
 #@markdown <small> Enter the name of your model again. It must be the same you chose before.
-model_name = 'test2'#@param {type:"string"}
+model_name = sys.argv[1]#@param {type:"string"}
 #@markdown <small> Choose how often to save the model and how much training you want it to have.
 save_frequency = 50 # @param {type:"slider", min:5, max:50, step:5}
 epochs = 100 # @param {type:"slider", min:10, max:1000, step:10}
@@ -110,10 +112,11 @@ def click_train(
     if pretrained_D15 == "":
         print("No pretrained Discriminator")
     if version19 == "v1" or sr2 == "40k":
-        config_path = "configs/v1/%s.json" % sr2
+        config_path = "./rvc/configs/v1/%s.json" % sr2
     else:
-        config_path = "configs/v2/%s.json" % sr2
+        config_path = "./rvc/configs/v2/%s.json" % sr2
     config_save_path = os.path.join(exp_dir, "config.json")
+    print(config_save_path)
     if not pathlib.Path(config_save_path).exists():
         with open(config_save_path, "w", encoding="utf-8") as f:
             with open(config_path, "r") as config_file:
@@ -128,7 +131,7 @@ def click_train(
             f.write("\n")
 
     cmd = (
-        'python infer/modules/train/train.py -e "%s" -sr %s -f0 %s -bs %s -g %s -te %s -se %s %s %s -l %s -c %s -sw %s -v %s'
+        'python rvc/infer/modules/train/train.py -e "%s" -sr %s -f0 %s -bs %s -g %s -te %s -se %s %s %s -l %s -c %s -sw %s -v %s'
         % (
             exp_dir1,
             sr2,

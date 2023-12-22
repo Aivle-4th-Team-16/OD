@@ -15,7 +15,7 @@ gdown
 mega.py
 joblib>=1.1.0
 numba==0.56.4
-numpy==1.22.4
+numpy==1.23
 scipy
 librosa==0.9.1
 llvmlite==0.39.0
@@ -60,3 +60,4 @@ ffmpy==0.3.1
 python-dotenv>=1.0.0
 av
 pydantic==1.10.12
+boto3

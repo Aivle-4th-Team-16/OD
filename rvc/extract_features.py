@@ -4,14 +4,14 @@ import sys
 f0method = "rmvpe"
 model_name = sys.argv[1]
 #%cd /content/drive/MyDrive/project-main
-with open(f'./project-main/logs/{model_name}/extract_f0_feature.log', 'w') as f:
+with open(f'./logs/{model_name}/extract_f0_feature.log', 'w') as f:
     f.write("Starting...")
 
 if f0method != "rmvpe_gpu":
     subprocess.run([
         'python',
-        './project-main/infer/modules/train/extract/extract_f0_print.py',
-        f'./project-main/logs/{model_name}',
+        './rvc/infer/modules/train/extract/extract_f0_print.py',
+        f'./logs/{model_name}',
         '2',
         f'{f0method}'
     ])
@@ -19,11 +19,11 @@ else:
     try:
         subprocess.run([
             'python',
-            './project-main/infer/modules/train/extract/extract_f0_rmvpe.py',
+            './rvc/infer/modules/train/extract/extract_f0_rmvpe.py',
             '1',
             '0',
             '0',
-            f'./project-main/logs/{model_name}',
+            f'./logs/{model_name}',
             'True'
         ])
     except:
@@ -31,16 +31,16 @@ else:
 
 subprocess.run([
     'python',
-    './project-main/infer/modules/train/extract_feature_print.py',
+    './rvc/infer/modules/train/extract_feature_print.py',
     'cuda:0',
     '1',
     '0',
     '0',
-    f'./projecr-main/logs/{model_name}',
+    f'./logs/{model_name}',
     'v2'
 ])
 
-with open(f'./project-main/logs/{model_name}/extract_f0_feature.log', 'r') as f:
+with open(f'./logs/{model_name}/extract_f0_feature.log', 'r') as f:
     if 'all-feature-done' in f.read():
         print("\u2714 Success")
     else:

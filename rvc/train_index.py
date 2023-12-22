@@ -2,8 +2,11 @@
 import numpy as np
 import faiss
 import os
+import sys
+
 #%cd /content/drive/MyDrive/project-main
-model_name = 'test2'
+model_name = sys.argv[1]
+
 def train_index(exp_dir1, version19):
     exp_dir = "logs/%s" % (exp_dir1)
     os.makedirs(exp_dir, exist_ok=True)
