@@ -15,7 +15,7 @@ now_dir=os.getcwd()
 #@markdown <small> Enter the name of your model again. It must be the same you chose before.
 model_name = sys.argv[1]#@param {type:"string"}
 #@markdown <small> Choose how often to save the model and how much training you want it to have.
-save_frequency = 50 # @param {type:"slider", min:5, max:50, step:5}
+save_frequency = 500 # @param {type:"slider", min:5, max:50, step:5}
 epochs = 100 # @param {type:"slider", min:10, max:1000, step:10}
 #@markdown <small> ONLY cache datasets under 10 minutes long. Otherwise leave this unchecked.
 cache = True #@param {type:"boolean"}
@@ -112,9 +112,9 @@ def click_train(
     if pretrained_D15 == "":
         print("No pretrained Discriminator")
     if version19 == "v1" or sr2 == "40k":
-        config_path = "./rvc/configs/v1/%s.json" % sr2
+        config_path = "rvc/configs/v1/%s.json" % sr2
     else:
-        config_path = "./rvc/configs/v2/%s.json" % sr2
+        config_path = "rvc/configs/v2/%s.json" % sr2
     config_save_path = os.path.join(exp_dir, "config.json")
     print(config_save_path)
     if not pathlib.Path(config_save_path).exists():
