@@ -533,17 +533,17 @@ class ContentPlayHTML(APIView):
             else:
                 model_path = 0
                 
-            config = dotenv_values(".env")
-            hostname = config.get("RVC_IP")
-            username = config.get("RVC_USER")
-            key_filename = config.get("RVC_KEY")  # 개인 키 파일 경로
+            # config = dotenv_values(".env")
+            # hostname = config.get("RVC_IP")
+            # username = config.get("RVC_USER")
+            # key_filename = config.get("RVC_KEY")  # 개인 키 파일 경로
 
-            # SSH 클라이언트 생성
-            client = paramiko.SSHClient()
-            # 호스트 키 자동으로 수락
-            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            # SSH 연결 (키 기반 인증)
-            client.connect(hostname=hostname, username=username, key_filename=key_filename)
+            # # SSH 클라이언트 생성
+            # client = paramiko.SSHClient()
+            # # 호스트 키 자동으로 수락
+            # client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            # # SSH 연결 (키 기반 인증)
+            # client.connect(hostname=hostname, username=username, key_filename=key_filename)
 
             '''
             try:
@@ -578,14 +578,13 @@ class ContentPlayHTML(APIView):
                     print("No data received before timeout")
                 return buffer
             '''
-            client.close()
+            # client.close()
             
             
         except Book.DoesNotExist:
             print('book not exist.')
             return Response(status=404, template_name=self.template_name)
-        user_favorite_books = [
-        ] if request.user.user_favorite_books is None else request.user.user_favorite_books
+        user_favorite_books = [] if request.user.user_favorite_books is None else request.user.user_favorite_books
         context = {
             'result': True,
             'book': book,
@@ -593,6 +592,7 @@ class ContentPlayHTML(APIView):
             'user': request.user,
             'user_favorites': user_favorite_books
         }
+        print(context)
         return Response(context, template_name=self.template_name)
 
 # 성우
@@ -706,3 +706,41 @@ class Voice_Custom_Search(View):
             return JsonResponse({'check': 'True'})
         except Voice.DoesNotExist:
             return JsonResponse({'check': 'False'})
+
+
+class VoiceList(APIView):
+    renderer_classes = [JSONRenderer]
+
+    def get(self, request):
+        faqs = Voice.objects.all()
+        serializer = VoiceSerializer(faqs, many=True)
+        return Response({"voices": serializer.data})
+
+    def post(self, request):
+        serializer = VoiceSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'result': True, 'faqs': serializer.data, 'message': 'users created.'})
+        return Response({'result': False, 'errors': serializer.errors}, status=400)
+
+
+class VoiceDetail(APIView):
+    renderer_classes = [JSONRenderer]
+
+    def get(self, request, pk, format=None):
+        voice = get_object_or_404(Voice, pk)
+        serializer = VoiceSerializer(voice)
+        return Response(serializer.data)
+
+    def put(self, request, pk, format=None):
+        voice = get_object_or_404(Voice, pk)
+        serializer = VoiceSerializer(voice, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, pk, format=None):
+        voice = get_object_or_404(Voice, pk)
+        voice.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

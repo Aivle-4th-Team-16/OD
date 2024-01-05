@@ -114,6 +114,7 @@
         const bookId = {{book.book_id}}
         var user_favorites = {{user_favorites}}
         var book_likes;
+        const voiceName = '{{voice_name}}'
         if (user_favorites.includes(bookId)) {
             book_likes = -1
             const uniqueSet = new Set(user_favorites);
@@ -134,122 +135,28 @@
                         return cookie.substring('csrftoken='.length, cookie.length);
                     }
                 }
+                return null;
             }
-            return null;
-        }
 
-        fetch('\\media\\{{book.book_content_path}}')
-            .then(response => {
-            // 응답을 텍스트로 변환합니다.
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-            })
-            .then(text => {
-            // 텍스트 내용을 <p> 태그의 내용으로 설정합니다.
-            document.getElementById('book_content').innerText = text;
-            })
-            .catch(error => {
-            // 오류가 발생했을 경우 콘솔에 오류를 출력합니다.
-            console.error('There has been a problem with your fetch operation:', error);
-            });
-        
-        document.getElementById("play").addEventListener("click", function() {
-            if (audio.paused) {
-                audio.play();
-                animateProgressBar();
-            } else {
-                audio.pause();
-                cancelAnimationFrame(animationFrameId);
-            }
-        });
-        
-        // 소리 파일의 재생 시간에 따라 프로그래스 바의 너비를 조절하는 함수
-        function updateProgressBar() {
-            const duration = audio.duration;
-            const currentTime = audio.currentTime;
-            const progress = (currentTime / duration) * 100;
-            progressBar.style.width = `${progress}%`;
-            updateProgressBarThumbPosition(progress);
-        }
-        
-        // 소리 파일이 로드될 때 프로그래스 바 업데이트
-        audio.addEventListener("loadeddata", updateProgressBar);
-        
-        // 소리 파일의 재생 중에 프로그래스 바 업데이트
-        audio.addEventListener("timeupdate", updateProgressBar);
-        
-        // 프로그래스 바 부드럽게
-        function animateProgressBar() {
-            updateProgressBar();
-            animationFrameId = requestAnimationFrame(animateProgressBar);
-        }
-        
-        progressBarThumb.addEventListener("mousedown", function (e) {
-            isDragging = true;
-            document.addEventListener("mousemove", handleThumbMove);
-            document.addEventListener("mouseup", function () {
-                isDragging = false;
-                document.removeEventListener("mousemove", handleThumbMove);
-            });
-        });
-        
-        // 동그란 아이콘이 이동할 때 발생하는 이벤트
-        function handleThumbMove(e) {
-            if (isDragging) {
-                const progressBarRect = progressBar.getBoundingClientRect();
-                const clickX = e.clientX - progressBarRect.left;
-                const progressBarWidth = progressBarRect.width;
-                const clickPercentage = clickX / progressBarWidth;
-                const newTime = clickPercentage * audio.duration;
-                audio.currentTime = newTime;
-                updateProgressBar();
-            }
-        }
-        
-        // 동그란 아이콘 위치 업데이트
-        function updateProgressBarThumbPosition(progress) {
-            progressBarThumb.style.left = `calc(${progress}% - 8px)`;
-        }
+            fetch('\\media\\{{book.book_content_path}}')
+                .then(response => {
+                    // 응답을 텍스트로 변환합니다.
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    // 텍스트 내용을 <p> 태그의 내용으로 설정합니다.
+                    document.getElementById('book_content').innerText = text;
+                })
+                .catch(error => {
+                    // 오류가 발생했을 경우 콘솔에 오류를 출력합니다.
+                    console.error('There has been a problem with your fetch operation:', error);
+                });
 
-            // "next" 버튼 클릭 시 5초 뒤로 이동
-            document.getElementById("next").addEventListener("click", function() {
-            audio.currentTime += 5;
-            updateProgressBar();
-            });
-
-            // "back" 버튼 클릭 시 5초 앞으로 이동
-            document.getElementById("prev").addEventListener("click", function() {
-                audio.currentTime -= 5;
-                updateProgressBar();
-            });
-
-            document.addEventListener("keydown", function(e) {
-                // 오른쪽 화살표 키
-                if (e.key === "ArrowRight") {
-                    audio.currentTime += 1;
-                    updateProgressBar();
-                }
-                // 왼쪽 화살표 키
-                else if (e.key === "ArrowLeft") {
-                    audio.currentTime -= 1;
-                    updateProgressBar();
-                }
-            });
-
-        const likeIcon = document.getElementById("like-icon");
-        
-        likeIcon.addEventListener("click", function () {
-            // CSRF 토큰 가져오기
-            const csrfToken = getCSRFToken();
-            console.log(csrfToken)
-            // CSRF 토큰이 있는지 확인
-            if (!csrfToken) {
-                console.error("CSRF 토큰을 찾을 수 없습니다.");
-                return;
-            }
             
+            // play 버튼 
             document.getElementById("play").addEventListener("click", function() {
                 if (audio.paused) {
                     audio.play();
@@ -259,7 +166,7 @@
                     cancelAnimationFrame(animationFrameId);
                 }
             });
-            
+        
             // 소리 파일의 재생 시간에 따라 프로그래스 바의 너비를 조절하는 함수
             function updateProgressBar() {
                 const duration = audio.duration;
@@ -274,13 +181,13 @@
             
             // 소리 파일의 재생 중에 프로그래스 바 업데이트
             audio.addEventListener("timeupdate", updateProgressBar);
-            
+        
             // 프로그래스 바 부드럽게
             function animateProgressBar() {
                 updateProgressBar();
                 animationFrameId = requestAnimationFrame(animateProgressBar);
             }
-            
+        
             progressBarThumb.addEventListener("mousedown", function (e) {
                 isDragging = true;
                 document.addEventListener("mousemove", handleThumbMove);
@@ -310,8 +217,8 @@
 
             // "next" 버튼 클릭 시 5초 뒤로 이동
             document.getElementById("next").addEventListener("click", function() {
-            audio.currentTime += 5;
-            updateProgressBar();
+                audio.currentTime += 5;
+                updateProgressBar();
             });
 
             // "back" 버튼 클릭 시 5초 앞으로 이동
@@ -333,7 +240,6 @@
                 }
             });
 
-            
             likeIcon.addEventListener("click", function () {
                 // CSRF 토큰 가져오기
                 const csrfToken = getCSRFToken();
@@ -343,8 +249,7 @@
                     console.error("CSRF 토큰을 찾을 수 없습니다.");
                     return;
                 }
-
-
+    
                 // 좋아요 버튼을 클릭했을 때 서버로 비동기 요청을 보내는 코드
                 fetch("{% url 'community:book_detail' pk=book.book_id%}", {
                     method: "PUT",  // 또는 "GET" 등 요청 방식 선택
@@ -361,8 +266,8 @@
                 .catch(error => {
                     console.error("좋아요 업데이트 중 오류 발생", error);
                 });
-
-                
+    
+            
                 // 좋아요 버튼을 클릭했을 때 서버로 비동기 요청을 보내는 코드
                 fetch("{% url 'community:user_detail' pk=user.user_id%}", {
                     method: "PUT",  // 또는 "GET" 등 요청 방식 선택
@@ -375,12 +280,12 @@
                 })
                 .then(data => {
                     // 성공적으로 데이터를 받아온 경우 실행되는 로직
-                    window.location.href = "{% url 'audiobook:content_play' book_id=book.book_id %}";
+                    window.location.href = "{% url 'audiobook:content_play' book_id=book.book_id %}?voice_name="+voiceName;
                 })
                 .catch(error => {
                     console.error("좋아요 업데이트 중 오류 발생", error);
                 });
-
+    
             });
         });
     </script>

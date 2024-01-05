@@ -58,6 +58,7 @@
         var isPlaying = false; // 소리가 현재 재생 중인지 여부를 나타내는 변수
         const user_book_history = {{user_book_history}}
         const bookId = {{book.book_id}}
+        const voiceName = '{{voice_name}}'
         if (!user_book_history.includes(bookId)) {
             user_book_history.push(bookId)
         }
@@ -108,7 +109,7 @@
             })
             .then(data => {
                 // 성공적으로 데이터를 받아온 경우 실행되는 로직
-                window.location.href = "{% url 'audiobook:content_play' book_id=book.book_id %}"
+                window.location.href = "{% url 'audiobook:content_play' book_id=book.book_id %}?voice_name="+voiceName
             })
             .catch(error => {
                 console.error("좋아요 업데이트 중 오류 발생", error);

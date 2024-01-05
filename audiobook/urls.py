@@ -33,5 +33,9 @@ urlpatterns = [
      path('rvc_train/', views.Rvc_Train.as_view(), name='rvc_train'),
      path('rvc_save/', views.Rvc_Save, name='rvc_save'),
      path('rvc_cancel/', views.Rvc_Cancel, name='rvc_cancel'),
-     path('tts/', views.TTS, name="TTS")
+     path('tts/', views.TTS, name="TTS"),
+     
+     #APIs
+     path('api/voice/', views.VoiceList.as_view(), name='voice_list'),  
+     path('api/voice/<int:pk>', views.VoiceDetail.as_view(), name='voice_detail'), 
 ]
